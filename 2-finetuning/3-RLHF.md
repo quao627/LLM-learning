@@ -16,6 +16,10 @@ The essential goal here is to make a conventional large language model (GPT-3 in
 
 # Steps:
 
+<p float="left">
+  <img src="https://lh7-us.googleusercontent.com/l1jDFQpeR6iJ6_iPvxW7Nu12R_GxXZJxaEhJr-P1zavdGdRIroMWfCzz6OwAgzhaUXPLk6TAeohXamraHcEDsrEUEgIE0HF_hYdmU1I4MW6GcgoSaf0rhUDMSNbrZciBaUZhv6Ub3-Pg_AgJkHfO7Q" width="85%" />
+</p>
+
 [https://lh7-us.googleusercontent.com/l1jDFQpeR6iJ6_iPvxW7Nu12R_GxXZJxaEhJr-P1zavdGdRIroMWfCzz6OwAgzhaUXPLk6TAeohXamraHcEDsrEUEgIE0HF_hYdmU1I4MW6GcgoSaf0rhUDMSNbrZciBaUZhv6Ub3-Pg_AgJkHfO7Q](https://lh7-us.googleusercontent.com/l1jDFQpeR6iJ6_iPvxW7Nu12R_GxXZJxaEhJr-P1zavdGdRIroMWfCzz6OwAgzhaUXPLk6TAeohXamraHcEDsrEUEgIE0HF_hYdmU1I4MW6GcgoSaf0rhUDMSNbrZciBaUZhv6Ub3-Pg_AgJkHfO7Q)
 
 1. Pretraining a language model (LM),
