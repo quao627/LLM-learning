@@ -29,7 +29,7 @@
 - [Flash Attention 1 & 2](3-train-inference/2-flash-attention.md)
 - [LoRA](3-train-inference/3-lora.md)
 - [Linear Attention & Lightening Attention 2](3-train-inference/4-linear-attention.md)
-- Quantization
+- [Quantization](3-train-inference/5-quantization.md)
 - Speculative Decoding
 - Overview of Efficient Serving
 
