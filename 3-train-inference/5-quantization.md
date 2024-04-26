@@ -1,5 +1,30 @@
 # Overview of Quantization
 
+<!-- toc -->
+
+- [Motivation](#motivation)
+- [Data Types](#data-types)
+- [Quantization Basics](#quantization-basics)
+  * [Quantization Target](#quantization-target)
+  * [Post-Training Quantization (PTQ)](#post-training-quantization-ptq)
+  * [Quantization-Aware Training (QAT)](#quantization-aware-training-qat)
+- [Quantization Introduction](#quantization-introduction)
+  * [K-means-based Weight Quantization](#k-means-based-weight-quantization)
+  * [Linear Quantization](#linear-quantization)
+  * [Binary and Ternary Quantization](#binary-and-ternary-quantization)
+  * [Automatic Mixed-precision Quantization](#automatic-mixed-precision-quantization)
+- [Quantization for LLMs](#quantization-for-llms)
+  * [LLM.int8()](#llmint8)
+  * [GPTQ](#gptq)
+  * [SmoothQuant (W8A8)](#smoothquant-w8a8)
+  * [AWQ](#awq)
+  * [The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits](#the-era-of-1-bit-llms-all-large-language-models-are-in-158-bits)
+  * [GGUF](#gguf)
+- [Toolkit and Code Examples](#toolkit-and-code-examples)
+- [Reference](#reference)
+
+<!-- tocstop -->
+
 ## Motivation
 
 Why Do We Need Quantization? Today’s AI is too big. While a larger model offers more capabilities, it also demands more expensive hardware and greater hardware resources. Solutions: Model Distillation, Quantization, etc for efficient inference
