@@ -1,106 +1,50 @@
-# Prompt Engineering
+# Advanced Prompt Engineering: Prefix Tuning
 
-- COT, Chain of Thought
-- Few-shot Learning
+![Untitled](Advanced%20Prompt%20Engineering%20Prefix%20Tuning%201051a9cc809d4c219bcd20912f521326/Untitled.png)
 
-## Best practices for chatGPT
+# **Introduction**
 
-From [OpenAI Prompt Engineering](https://platform.openai.com/docs/guides/prompt-engineering)
+In the world of AI, prompt engineering is changing the game for Language Models (LLMs). Thanks to the simplicity of Zero-Shot Learning, anyone, regardless of technical expertise, can now create custom prompts for better and personalized results. The cool thing about prompt engineering is that it lets you get useful info from a model, even if it wasn’t trained for a specific job. This shift means that each well-thought-out prompt becomes a key to unlocking the full potential of language models, reshaping how we interact with AI in the future.
 
-- Write Clear Instructions
-    - [Ask the model to adopt a persona](https://platform.openai.com/docs/guides/prompt-engineering/tactic-ask-the-model-to-adopt-a-persona) : use system message
-    - [Include details in your query to get more relevant answers](https://platform.openai.com/docs/guides/prompt-engineering/tactic-include-details-in-your-query-to-get-more-relevant-answers) : Who’s president? ⇒ Who was the president of Mexico in 2021
-    - [Use delimiters to clearly indicate distinct parts of the input](https://platform.openai.com/docs/guides/prompt-engineering/tactic-use-delimiters-to-clearly-indicate-distinct-parts-of-the-input) , <article>
-    - [Specify the steps required to complete a task](https://platform.openai.com/docs/guides/prompt-engineering/tactic-specify-the-steps-required-to-complete-a-task)
-    - [Provide examples](https://platform.openai.com/docs/guides/prompt-engineering/tactic-provide-examples) : few-shot learning
-    - [Specify the desired length of the output](https://platform.openai.com/docs/guides/prompt-engineering/tactic-specify-the-desired-length-of-the-output)
-- **[Provide reference text](https://platform.openai.com/docs/guides/prompt-engineering/provide-reference-text)**
-    - [Instruct the model to answer using a reference text](https://platform.openai.com/docs/guides/prompt-engineering/tactic-instruct-the-model-to-answer-using-a-reference-text)
-    - [Instruct the model to answer with citations from a reference text](https://platform.openai.com/docs/guides/prompt-engineering/tactic-instruct-the-model-to-answer-with-citations-from-a-reference-text) : make reply indicate citations for human check
-- **[Split complex tasks into simpler subtasks](https://platform.openai.com/docs/guides/prompt-engineering/split-complex-tasks-into-simpler-subtasks)**
-    - [Use intent classification to identify the most relevant instructions for a user query](https://platform.openai.com/docs/guides/prompt-engineering/tactic-use-intent-classification-to-identify-the-most-relevant-instructions-for-a-user-query)
-    - [For dialogue applications that require very long conversations, summarize or filter previous dialogue](https://platform.openai.com/docs/guides/prompt-engineering/tactic-for-dialogue-applications-that-require-very-long-conversations-summarize-or-filter-previous-dialogue)
-    - [Summarize long documents piecewise and construct a full summary recursively](https://platform.openai.com/docs/guides/prompt-engineering/tactic-summarize-long-documents-piecewise-and-construct-a-full-summary-recursively)
-- **[Give the model time to "think"](https://platform.openai.com/docs/guides/prompt-engineering/give-the-model-time-to-think)**
-    - [Instruct the model to work out its own solution before rushing to a conclusion](https://platform.openai.com/docs/guides/prompt-engineering/tactic-instruct-the-model-to-work-out-its-own-solution-before-rushing-to-a-conclusion) : We can get the model to successfully notice this by prompting the model to generate its own solution first, before asking model whether the answer is correct or not.
-    - [Use inner monologue or a sequence of queries to hide the model's reasoning process](https://platform.openai.com/docs/guides/prompt-engineering/tactic-use-inner-monologue-or-a-sequence-of-queries-to-hide-the-model-s-reasoning-process) : Inner monologue is a tactic that can be used to mitigate this. The idea of inner monologue is to instruct the model to put parts of the output that are meant to be hidden from the user into a structured format that makes parsing them easy.
-    - [Ask the model if it missed anything on previous passes](https://platform.openai.com/docs/guides/prompt-engineering/tactic-ask-the-model-if-it-missed-anything-on-previous-passes)
-- **[Use external tools](https://platform.openai.com/docs/guides/prompt-engineering/use-external-tools)**
-    - [Use embeddings-based search to implement efficient knowledge retrieval](https://platform.openai.com/docs/guides/prompt-engineering/tactic-use-embeddings-based-search-to-implement-efficient-knowledge-retrieval)
-    - [Use code execution to perform more accurate calculations or call external APIs](https://platform.openai.com/docs/guides/prompt-engineering/tactic-use-code-execution-to-perform-more-accurate-calculations-or-call-external-apis)
-    - [Give the model access to specific functions](https://platform.openai.com/docs/guides/prompt-engineering/tactic-give-the-model-access-to-specific-functions)
+Yet, there are some drawbacks to this approach. Crafting the perfect prompt often demands numerous adjustments to yield optimal results, presenting a slight challenge. In fact, it can be a bit tricky for individuals who may resort to experimenting with random prompts. Surprisingly, this trial-and-error method sometimes leads to unexpected outputs, unlocking possibilities that were initially unknown. Also, not all LLMs can perform multiple downstream tasks using only prompts.
 
-[Use delimiters to clearly indicate distinct parts of the input](https://platform.openai.com/docs/guides/prompt-engineering/tactic-use-delimiters-to-clearly-indicate-distinct-parts-of-the-input)
+# **Fine Tuning vs. Prefix Tuning**
 
-```markdown
-SYSTEM
-You will be provided with a pair of articles (delimited with XML tags) about the same topic. First summarize the arguments of each article. Then indicate which of them makes a better argument and explain why.
+In the past, we relied on transfer learning to easily fine-tune models for new tasks. However, with today’s Language Models (LLMs) boasting millions, if not billions, of parameters, the process of fine-tuning has become resource intensive. This poses a challenge, especially for everyday researchers who might not have access to the substantial resources required for fine-tuning a Large Language Model.
 
-USER
-<article> insert first article here </article>
-<article> insert second article here </article>
-```
+Prefix tuning is a technique aiming to streamline the process. Instead of relying on manual prompt engineering, it focuses on learning a continuous prompt that can be seamlessly optimized end-to-end. This learned prompt, when added to the model’s input, acts as a guiding beacon, providing the necessary context to steer the model’s behavior in alignment with the specific task at hand. It’s like giving the model a customized set of instructions without the hassle of intricate manual tweaking, making the entire process more efficient and dynamic. It also doesn’t require training multiple parameters from the model, training only less than 1000× the parameters of the model.
 
-[Specify the steps required to complete a task](https://platform.openai.com/docs/guides/prompt-engineering/tactic-specify-the-steps-required-to-complete-a-task)
+# **How Prefix Tuning works**
 
-```markdown
-SYSTEM
-Use the following step-by-step instructions to respond to user inputs.
-Step 1 - The user will provide you with text in triple quotes. Summarize this text in one sentence with a prefix that says "Summary: ".
-Step 2 - Translate the summary from Step 1 into Spanish, with a prefix that says "Translation: ".
+Prefix Tuning essentially prepends a learned continuous vector, called the prefix, to the input of the pretrained model.
 
-USER
-"""insert text here"""
-```
+Let’s take an example. Imagine we are prefix-tuning a Large Language Model (LLM) for Hate Speech Classification. The model takes an input *x* tweet and generates an output *y* which is the classification “Hate” or “Non-Hate”.
 
-[Instruct the model to answer with citations from a reference text](https://platform.openai.com/docs/guides/prompt-engineering/tactic-instruct-the-model-to-answer-with-citations-from-a-reference-text)
+In prefix tuning, we’re doing a simple yet clever move — mixing x and y into a single sequence, let’s call it z = [x; y]. Why? Well, this combo creates a kind of “encoder-like” function. It’s super handy for tasks where y depends on x. It’s called Conditional Generation. This way, the model can smoothly go back and forth between x and y using its self-attention skills.
 
-```markdown
-SYSTEM
-You will be provided with a document delimited by triple quotes and a question. Your task is to answer the question using only the provided document and to cite the passage(s) of the document used to answer the question. If the document does not contain the information needed to answer this question then simply write: "Insufficient information." If an answer to the question is provided, it must be annotated with a citation. Use the following format for to cite relevant passages ({"citation": …}).
-USER
-"""<insert document here>"""
+Moving along in the process, we introduce a prefix vector, let’s call it u, which is placed at the beginning of our sequence z, resulting in the concatenated form [u; x; y].
 
-Question: <insert question here>
-```
+The prefix vector u is a matrix with dimensions (prefix_length × d), where d denotes the hidden dimension size. To put it into perspective, consider a scenario with a prefix length of 10 and a hidden size of 1024. In this case, the prefix would house a total of 10,240 tunable parameters.
 
-[Use inner monologue or a sequence of queries to hide the model's reasoning process](https://platform.openai.com/docs/guides/prompt-engineering/tactic-use-inner-monologue-or-a-sequence-of-queries-to-hide-the-model-s-reasoning-process): use COT
+This unified sequence is then systematically input into the Transformer model in an autoregressive manner. The model engages in attentive computations, focusing on prior tokens within the sequence z to predict the subsequent token. Specifically, the model computes hi, representing the current hidden state, as a function of zi and the past activations within its left context. This approach ensures the Transformer’s ability to progressively anticipate the upcoming tokens in the sequence.
 
-```markdown
-SYSTEM
+![https://miro.medium.com/v2/resize:fit:700/0*jUZQKCJPSjmboAwD.png](https://miro.medium.com/v2/resize:fit:700/0*jUZQKCJPSjmboAwD.png)
 
-Follow these steps to answer the user queries.
-Step 1 - First work out your own solution to the problem. Don't rely on the student's solution since it may be incorrect. Enclose all your work for this step within triple quotes (""").
-Step 2 - Compare your solution to the student's solution and evaluate if the student's solution is correct or not. Enclose all your work for this step within triple quotes (""").
-Step 3 - If the student made a mistake, determine what hint you could give the student without giving away the answer. Enclose all your work for this step within triple quotes (""").
-Step 4 - If the student made a mistake, provide the hint from the previous step to the student (outside of triple quotes). Instead of writing "Step 4 - ..." write "Hint:".
+[An annotated example of prefix-tuning using an autoregressive LM](https://www.youtube.com/watch?v=TwE2m6Z991s)
 
-USER
-Problem Statement: <insert problem statement>
+In the training phase, we fine-tune the prefix values to maximize the likelihood of generating the accurate output text y when provided with input x. The optimization process exclusively calculates gradients for the loss function concerning the prefix parameters. It’s worth noting that the parameters of the pretrained model remain entirely unaltered, maintaining their fixed state throughout this training iteration. This strategic separation allows us to refine the specific elements responsible for prefix tuning without disturbing the foundational pretrained model.
 
-Student Solution: <insert student solution>
-```
+The prefix tuning methodology, as demonstrated in the research paper, achieves a performance level comparable to full fine-tuning on the E2E dataset, utilizing a mere 0.1% of the tuned parameters (250K compared to 345M). This highlights the remarkable efficiency of the approach. The prefix acts as a nimble adaptation mechanism for the pretrained model, offering a lightweight solution that significantly reduces the computational overhead while preserving substantial performance gains and injecting task-specific knowledge into the model.
 
-## Best practices for OpenAI API
+# **Advantages of Prefix Tuning**
 
-- Put instructions at the beginning of the prompt and **use ### or """** to separate the instruction and context
-- Articulate the desired output format through examples
-- Instead of just saying what not to do, say what to do instead
-- **Code Generation Specific -** Use “leading words” to nudge the model toward a particular pattern
-- For most **factual use cases** such as data extraction, and truthful Q&A, the `temperature` of **0** is best.
+1. **Memory Efficiency:** Prefix tuning stands out for its memory-efficient approach. Rather than storing a full copy of the pretrained model for each task, only a small prefix needs to be retained. This not only conserves storage but also facilitates scaling to handle a multitude of tasks efficiently.
+2. **Faster Training:** The process of updating only the prefix parameters significantly accelerates training compared to full model fine-tuning. By avoiding gradient computation through the entire pretrained model, prefix tuning offers a substantial boost in training speed.
+3. **Modularity:** One of the key strengths of prefix tuning lies in its modular design. The pretrained model remains fixed and untouched, eliminating the need for any modifications. This modularity allows for flexible combinations of prefixes and pretrained models, enhancing adaptability.
+4. **Better Generalization:** Freezing the pretrained parameters enhances generalization to new datasets and topics. By relying on the inherent capabilities of the model rather than overfitting parameters, prefix tuning, as demonstrated in the research, exhibits superior extrapolation performance compared to full fine-tuning in certain scenarios.
+5. **Personalization:** The independent learning of prefixes per user opens the door to personalized experiences. With a single pretrained model supporting personalized prefixes, it becomes a versatile tool for catering to individual user preferences.
+6. **Interpretability:** The compact nature of prefixes enhances interpretability compared to large, fine-tuned models. This simplicity makes it easier to inspect and understand the specific knowledge injected into the model through the prefix, providing valuable insights.
 
-Use ### or """ to separate the instruction and context 
+# **Conclusion**
 
-```markdown
-Summarize the text below as a bullet point list of the most important points.
-
-Text: """
-{text input here}
-"""
-```
-
-# References
-
-- [Meet Notes](https://docs.google.com/document/d/1B0Xhyyqgz_fqjj7e7jD_eIK1ByygM48VJyL5J_zEByI/edit#heading=h.yv7qylxozth0)
-- [OpenAI Prompt Engineering](https://platform.openai.com/docs/guides/prompt-engineering)
-- [Prompt engineering with the OpenAI API](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api)
+In summary, prefix tuning offers an efficient, modular, and user-centric approach to steering large pretrained Language Models, presenting a compelling alternative to traditional full fine-tuning methods.
